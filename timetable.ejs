@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timetable</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+            background-color: #fff;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            font-size: 16px;
+        }
+
+        th {
+            background-color: #f8f8f8;
+        }
+
+        .toggle-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .toggle-btn:hover {
+            background-color: #45a049;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            table, th, td {
+                font-size: 14px;
+            }
+
+            .toggle-btn {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Timetable</h1>
+
+    <!-- Toggle button -->
+    <button class="toggle-btn" id="toggleButton">Hide Timetable</button>
+
+    <!-- Timetable -->
+    <div id="timetable">
+        <table>
+            <thead>
+                <tr>
+                    <th>Batch</th>
+                    <th>Teacher</th>
+                    <th>Classroom</th>
+                    <th>Day</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% timetable.forEach(row => { %>
+                    <tr>
+                        <td><%= row.batch %></td>
+                        <td><%= row.teacher %></td>
+                        <td><%= row.classroom %></td>
+                        <td><%= row.day %></td>
+                        <td><%= row.startTime %>:00</td>
+                        <td><%= row.endTime %>:00</td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Back to Home Button -->
+    <a href="/" class="toggle-btn">Back to Home</a>
+
+    <script>
+        const toggleButton = document.getElementById('toggleButton');
+        const timetableDiv = document.getElementById('timetable');
+
+        toggleButton.addEventListener('click', function() {
+            if (timetableDiv.classList.contains('hidden')) {
+                timetableDiv.classList.remove('hidden');
+                toggleButton.textContent = 'Hide Timetable';
+            } else {
+                timetableDiv.classList.add('hidden');
+                toggleButton.textContent = 'Show Timetable';
+            }
+        });
+    </script>
+</body>
+</html>

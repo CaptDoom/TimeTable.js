@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Check Slots</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            background-color: #fff;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+            background-color: #fff;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            font-size: 16px;
+        }
+
+        th {
+            background-color: #f8f8f8;
+        }
+
+        a {
+            text-decoration: none;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #45a049;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            table, th, td {
+                font-size: 14px;
+            }
+
+            ul li {
+                padding: 8px;
+                font-size: 14px;
+            }
+
+            a {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Check Slots</h1>
+
+    <p><strong>Day:</strong> <%= day %></p>
+    <p><strong>Time:</strong> <%= time %>:00</p>
+
+    <h2>Available Classrooms</h2>
+    <ul>
+        <% emptyClassrooms.forEach(function(classroom) { %>
+            <li><%= classroom %></li>
+        <% }); %>
+    </ul>
+
+    <h2>Ongoing Classes</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Batch</th>
+                <th>Teacher</th>
+                <th>Classroom</th>
+                <th>Day</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% ongoingClasses.forEach(function(row) { %>
+                <tr>
+                    <td><%= row.batch %></td>
+                    <td><%= row.teacher %></td>
+                    <td><%= row.classroom %></td>
+                    <td><%= row.day %></td>
+                    <td><%= row.startTime %>:00</td>
+                    <td><%= row.endTime %>:00</td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+    <a href="/search">Search Timetable</a>
+</body>
+</html>

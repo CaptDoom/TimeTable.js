@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Timetable</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Timetable Styles */
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px 0;
+            background-color: white;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            table {
+                width: 100%;
+            }
+
+            input[type="text"], button {
+                font-size: 14px;
+                padding: 8px;
+            }
+        }
+
+        /* Hidden class for dropdown functionality */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Timetable</h1>
+    
+    <!-- Batch Form -->
+    <form action="/batch" method="get">
+        <label for="batch_number">Batch Number:</label>
+        <input type="text" id="batch_number" name="batch_number" placeholder="Enter Batch Number">
+        <button type="submit">View Batch Timetable</button>
+    </form>
+
+    <!-- Teacher Form -->
+    <form action="/teacher" method="get">
+        <label for="teacher_id">Teacher ID:</label>
+        <input type="text" id="teacher_id" name="teacher_id" placeholder="Enter Teacher ID">
+        <button type="submit">View Teacher Timetable</button>
+    </form>
+
+    <!-- Toggle Button for Complete Timetable -->
+    <button id="toggleButton">Hide Complete Timetable</button>
+
+    <!-- Complete Timetable wrapped in a div -->
+    <div id="timetableDiv">
+        <h2>Complete Timetable</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Batch</th>
+                    <th>Teacher</th>
+                    <th>Classroom</th>
+                    <th>Day</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% timetable.forEach(row => { %>
+                    <tr>
+                        <td><%= row.batch %></td>
+                        <td><%= row.teacher %></td>
+                        <td><%= row.classroom %></td>
+                        <td><%= row.day %></td>
+                        <td><%= row.startTime %>:00</td>
+                        <td><%= row.endTime %>:00</td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- JavaScript to toggle timetable visibility -->
+    <script>
+        const toggleButton = document.getElementById('toggleButton');
+        const timetableDiv = document.getElementById('timetableDiv');
+
+        toggleButton.addEventListener('click', function() {
+            if (timetableDiv.classList.contains('hidden')) {
+                timetableDiv.classList.remove('hidden');
+                toggleButton.textContent = 'Hide Complete Timetable';
+            } else {
+                timetableDiv.classList.add('hidden');
+                toggleButton.textContent = 'Show Complete Timetable';
+            }
+        });
+    </script>
+</body>
+</html>
