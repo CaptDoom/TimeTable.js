@@ -112,10 +112,10 @@ app.get('/', (req, res) => {
 
 app.get('/batch', (req, res) => {
     const batchNumber = req.query.batch_number;
-    
+
     if (batchNumber) {
         const batchTimetable = df.filter(row => row.batch === batchNumber);
-        
+
         if (batchTimetable.length === 0) {
             return res.status(404).send(`No timetable found for batch ${batchNumber}`);
         } else {
@@ -128,10 +128,10 @@ app.get('/batch', (req, res) => {
 
 app.get('/teacher', (req, res) => {
     const teacherId = req.query.teacher_id;
-    
+
     if (teacherId) {
         const teacherTimetable = df.filter(row => row.teacher === teacherId);
-        
+
         if (teacherTimetable.length === 0) {
             return res.status(404).send(`No classes found for teacher ${teacherId}`);
         } else {
@@ -145,14 +145,14 @@ app.get('/teacher', (req, res) => {
 app.get('/check_slots', (req, res) => {
     const day = req.query.day;
     const time = parseInt(req.query.time, 10);
-    
+
     if (!day || isNaN(time)) {
         return res.status(400).send('Invalid query parameters');
     }
-    
+
     const emptyClassrooms = listEmptySlots(day, time);
     const ongoingClasses = listOngoingClasses(day, time);
-    
+
     res.render('check_slots', {
         day,
         time,
@@ -176,6 +176,46 @@ app.get('/combined', (req, res) => {
     } else {
         return res.status(400).send('Invalid query parameters');
     }
+});
+
+// Delete functionality
+app.post('/delete', (req, res) => {
+    const index = parseInt(req.body.index, 10);
+
+    if (!isNaN(index) && index >= 0 && index < df.length) {
+        df.splice(index, 1); // Remove the entry from the timetable
+    }
+
+    res.redirect('/');
+});
+
+// Edit (Update) functionality
+app.get('/edit', (req, res) => {
+    const index = parseInt(req.query.index, 10);
+
+    if (!isNaN(index) && index >= 0 && index < df.length) {
+        const entry = df[index];
+        res.render('edit', { entry, index });
+    } else {
+        res.status(404).send('Invalid timetable entry');
+    }
+});
+
+app.post('/update', (req, res) => {
+    const index = parseInt(req.body.index, 10);
+
+    if (!isNaN(index) && index >= 0 && index < df.length) {
+        df[index] = {
+            batch: req.body.batch,
+            teacher: req.body.teacher,
+            classroom: req.body.classroom,
+            day: req.body.day,
+            startTime: parseInt(req.body.startTime, 10),
+            endTime: parseInt(req.body.endTime, 10)
+        };
+    }
+
+    res.redirect('/');
 });
 
 app.listen(port, () => {
